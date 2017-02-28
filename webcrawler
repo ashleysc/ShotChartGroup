@@ -1,0 +1,41 @@
+from urllib.request import urlopen
+from bs4 import BeautifulSoup
+import re
+html = urlopen("http://www.espn.com/mens-college-basketball/game?gameId=400915668")
+bsObj = BeautifulSoup(html, "html.parser")
+shots=[None]*200
+half=[None]*200
+number=[None]*200
+shooter=[None]*200
+i=0
+for shot in bsObj.findAll("li", {"class":"made"}):
+    if 'data-text' in shot.attrs:
+        shots[i] = shot.attrs['data-text']
+        print(shots[i])
+        i=i+1
+    if 'id' in shot.attrs:
+        number[i] = shot.attrs['id']
+        print(shot.attrs['id'])
+    if 'data-period' in shot.attrs:
+        half[i] = shot.attrs['data-period']
+        print(shot.attrs['data-period'])
+    if 'data-shooter' in shot.attrs:
+        shooter[i] = shot.attrs['data-shooter']
+for shot in bsObj.findAll("li", {"class":"missed"}):
+    if 'data-text' in shot.attrs:
+        shots[i] = shot.attrs['data-text']
+        print(shots[i])
+        i=i+1
+    if 'id' in shot.attrs:
+        number[i] = shot.attrs['id']
+        print(shot.attrs['id'])
+    if 'data-period' in shot.attrs:
+        half[i] = shot.attrs['data-period']
+        print(shot.attrs['data-period'])
+    if 'data-shooter' in shot.attrs:
+        shooter[i] = shot.attrs['data-shooter']
+
+
+
+for a in range(0,150):
+    print(number[a], shots[a], half[a], shooter[a])
